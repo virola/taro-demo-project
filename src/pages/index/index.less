@@ -1,0 +1,76 @@
+@import '../../common/css/variables.less';
+
+.banner {
+  position: relative;
+  height: 350px;
+
+  .default {
+    height: 100%;
+    background-color: @theme-color;
+    text-align: center;
+
+    .logo-img {
+      margin: 70px auto 10px;
+      width: 260px;
+      height: 95px;
+    }
+    .logo-text {
+      color: #fff;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-size: 36px;
+      font-weight: bold;
+      letter-spacing: 5px;
+    }
+  }
+
+  .mask {
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    width: 100%;
+    line-height: 54px;
+    background: rgba(255, 255, 255, .3);
+    text-align: center;
+    .mask-text {
+      line-height: 50px;
+      color: #fff;
+    }
+  }
+}
+
+.icon-wrap {
+  background: #fff;
+  // height: @entries-height - 40px;
+  padding: 40px 35px;
+  margin-bottom: 25px;
+  align-items: flex-start;
+  border-bottom: 1px solid #ddd;
+}
+// 入口图标
+.main-icon {
+  width: 25%;
+  position: relative;
+  text-align: center;
+
+  .icon {
+    width: 88px;
+    height: 88px;
+  }
+  .badge {
+    position: absolute;
+    right: 25px;
+    top: -2px;
+    border-radius: 50%;
+    background: #f03e3e;
+    color: #fff;
+    font-size: 24px;
+    line-height: 24px;
+    padding: 5px 10px;
+  }
+  .label-title {
+    margin-top: 20px;
+  }
+}
+

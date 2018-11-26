@@ -1,0 +1,49 @@
+@import './common/css/variables.less';
+
+view, text, label, input, textarea, button, navigator, picker, .page {
+  font-family: 'Microsoft YaHei';
+  font-size: 28px;
+  color: #333;
+}
+
+.page {
+  background: #f6f6f6;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.text-secondary {
+  color: #b2b2b2;
+}
+.text-9 {
+  color: #999;
+}
+
+// 默认按钮
+.btn {
+  height: 88px;
+  border-radius: 44px;
+  background-color: @theme-color;
+  color: #fff;
+  text-align: center;
+}
+.btn:only-child {
+  width: 600px;
+}
+
+// 默认图标样式
+.icon-info {
+  width: 156px;
+  height: 156px;
+  border-radius: 50%;
+  background: url('http://wx.goalwisdom.net/static/img/newAuthor/register_search_failed@2x.png') no-repeat center;
+  background-size: 100% 100%;
+}
