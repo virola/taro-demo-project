@@ -17,7 +17,7 @@ const ajax = (options = {}) => {
     content: '加载中...',
   })
   const contentType = options.contentType && options.contentType == 'form' ? 'application/x-www-form-urlencoded' : 'application/json'
-  const url = options.url.indexOf('http') > -1 ? options.url : `${global.baseUrl}/${options.url}`
+  const url = options.url.indexOf('http') > -1 ? options.url : `${global.baseUrl}${options.url}`
   // console.log(options);
   return new Promise((resolve) => {
     Taro.request({
@@ -38,6 +38,33 @@ const ajax = (options = {}) => {
       })
     })
   })
+};
+
+/**
+ * 导出一个fetch请求方法
+ * @param {*} url URL
+ * @param {*} data 请求参数
+ */
+export const fetch = (url, data = {}) => {
+  return ajax({
+    url,
+    data,
+  });
+};
+
+/**
+ * 导出一个通用post请求方法
+ * @param {*} url URL
+ * @param {*} data post参数
+ * @param {*} contentType 传输方式
+ */
+export const post = (url, data = {}, contentType = '') => {
+  return ajax({
+    url,
+    data,
+    method: 'POST',
+    contentType,
+  });
 };
 
 export default ajax;

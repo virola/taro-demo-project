@@ -5,6 +5,10 @@ view, text, label, input, textarea, button, navigator, picker, .page {
   font-size: 28px;
   color: #333;
 }
+input, textarea, button {
+  margin: 0;
+  padding: 0;
+}
 
 .page {
   background: #f6f6f6;
@@ -20,6 +24,9 @@ view, text, label, input, textarea, button, navigator, picker, .page {
   flex-direction: column;
 }
 
+.text-primary {
+  color: @theme-color;
+}
 .text-secondary {
   color: #b2b2b2;
 }
@@ -34,6 +41,11 @@ view, text, label, input, textarea, button, navigator, picker, .page {
   background-color: @theme-color;
   color: #fff;
   text-align: center;
+  outline: 0;
+  appearance: none;
+  margin: 30px auto;
+  padding: 0;
+  border: 1px solid transparent;
 }
 .btn:only-child {
   width: 600px;

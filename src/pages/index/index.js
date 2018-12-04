@@ -1,8 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import ajax from '../../service/ajax'
+import { fetch } from '../../service/ajax'
 import EducationItem from '../../components/EducationItem'
 import Authorize from '../../components/Authorize'
+import global from '../../global'
 
 import './index.less'
 
@@ -15,9 +16,10 @@ export default class Index extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      userInfo: {},
+      userInfo: global.appUserInfo,
       loading: true,
       // 首页宣教list
+      pageNumber: 1,
       list: [],
       mainIcons: [
         {
@@ -54,8 +56,10 @@ export default class Index extends Component {
   }
 
   componentDidMount () {
-    ajax({
-      url: '/patientUser/getFilterSystemHealthEducations'
+    const { pageNumber } = this.state
+    fetch('patientUser/getFilterSystemHealthEducations', {
+      pageSize: 10,
+      pageNumber,
     }).then(res => {
       if (res.success) {
         this.setState({
@@ -80,7 +84,7 @@ export default class Index extends Component {
     const { userInfo, loading, list, mainIcons } = this.state
     const articleList = list.map(item => {
       return (
-        <EducationItem image={item.image} title={item.title}></EducationItem>
+        <EducationItem image={item.image} title={item.title} key={item.id}></EducationItem>
       )
     })
 
@@ -89,7 +93,7 @@ export default class Index extends Component {
     return (
       <View className='page'>
         {
-          userToken ? '' : <Authorize isOpen={true}></Authorize>
+          userToken ? '' : <Authorize isOpened></Authorize>
         }
         <View className='banner'>
           {
@@ -104,8 +108,7 @@ export default class Index extends Component {
             <Text className='mask-text'>{userInfo.hospitalName || '壁虎E护'}</Text>
           </View>
         </View>
-        {/* 图标入口 */}
-        <View class='flex icon-wrap'>
+        <View className='flex icon-wrap'>
           {
             mainIcons.map((item, index) => (
               <View className='main-icon' key={index}>
