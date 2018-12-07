@@ -1,13 +1,46 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import * as $api from '../../service/api'
+import socket from '../../service/socket'
+import global from '../../global'
+import ChatContent from '../../components/ChatContent'
+import DoctorCard from '../../components/DoctorCard'
 
 export default class index extends Component {
   config = {
-    navigationBarTitleText: '壁虎E护'
+    navigationBarTitleText: '免费咨询'
+  }
+
+  constructor() {
+    super(...arguments)
+
+    this.state = {
+      loading: true,
+      managerStatus: false,
+      managerId: '',
+      managerInfo: {},
+      // 列表数据
+      list: [],
+    }
   }
 
   componentWillMount () {
-    this.bindSocket()
+    socket.bindOnLoad((res) => {
+      // 接收到新消息的时候，重新请求聊天列表
+      if (res instanceof Array) {
+        this.appendMsg(res)
+      }
+    })
+
+    console.log(this.$router.params)
+    // URL参数，个案师ID
+    const managerId = this.$router.params.id
+    console.log(managerId)
+    if (managerId) {
+      this.setState({
+        managerId
+      })
+    }
   }
 
   componentDidMount () {
@@ -18,45 +51,91 @@ export default class index extends Component {
 
   }
 
+  // onShow
   componentDidShow () {
-
+    this.initChatData()
   }
 
   componentDidHide () { }
 
-  bindSocket() {
-    my.onSocketClose(() => {
-      my.alert({content: '连接已关闭！'});
-      // this.setState({
-      //   sendMessageAbility: false,
-      //   closeLinkAbility: false,
-      // });
-    });
-    // 注意： 回调方法的注册在整个小程序启动阶段只要做一次，调多次会有多次回调
-    my.onSocketOpen(() => {
-      my.alert({content: '连接已打开！'});
-      // this.setState({
-      //   sendMessageAbility: true,
-      //   closeLinkAbility: true,
-      // });
-    });
+  async initChatData() {
+    const userInfo = global.appUserInfo
+    const { managerId } = this.state
 
-    my.onSocketError(function(res){
-      my.alert('WebSocket 连接打开失败，请检查！' + res);
-    });
+    const [ managerData, chatData ] = await Promise.all([
+      // 请求个案师信息
+      $api.getManagerInfoById(managerId),
+      // 请求对话列表
+      $api.getChatContents({
+        contactsId: managerId,
+        userId: userInfo.id
+      }),
+    ])
+    // console.log(managerData, chatData)
 
-    // 注意： 回调方法的注册在整个小程序启动阶段只要做一次，调多次会有多次回调
-    my.onSocketMessage((res) => {
-      console.log('message:', res)
-      // my.alert({content: '收到数据！' + JSON.stringify(res)});
-    });
+    if (managerData.success && chatData.success) {
+      this.setState({
+        managerInfo: managerData.data,
+        list: chatData.data,
+        loading: false
+      })
+      // 修改标题
+      Taro.setNavigationBarTitle({
+        title: `免费咨询 - ${managerData.data.name}`
+      })
+    } else {
+      this.setState({
+        loading: false
+      })
+    }
+  }
+
+  // socket追加新消息
+  appendMsg(msg) {
+    const { list, managerId } = this.state
+    const msgLen = list.length
+
+    msg.forEach(item => {
+      if (item.senderId == managerId) {
+        list.push(item)
+      }
+    })
+    if (msgLen == list.length) {
+      return
+    }
+    this.setState({
+      list,
+    })
   }
 
   render() {
+    const { managerId, managerInfo, managerStatus, loading, list } = this.state
+    const currentUser = global.appUserInfo
+    console.log(list, managerInfo)
+
     return (
       <View>
-        <Text>聊天室</Text>
-        <View>测试聊天socket</View>
+        {
+          loading ? <View className='loading-page'>LOADING...</View> :
+          <View>
+            <DoctorCard doctor={managerInfo}></DoctorCard>
+            <View className='flex'>
+              <View>信息完善状态: {managerStatus ? '是' : '否'}</View>
+            </View>
+            <View>医生ID {managerId}</View>
+            <View className='chat-msg-list'>
+              {
+                list.map(item => {
+                  const user = item.senderId == currentUser.id ? currentUser : managerInfo
+                  return (
+                    <ChatContent key={item.id} msg={item} user={user} showName={false}></ChatContent>
+                  )
+                })
+              }
+            </View>
+          </View>
+        }
+
       </View>
     )
   }

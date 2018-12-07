@@ -29,9 +29,11 @@ export default class index extends Component {
   // onLoad
   componentWillMount () {
     this.getManagerStatus()
-    // this.bindSocket()
     socket.bindOnLoad((res) => {
-      console.log(res)
+      // 接收到新消息的时候，重新请求聊天列表
+      if (res instanceof Array) {
+        this.getChatList()
+      }
     })
   }
 
@@ -44,12 +46,6 @@ export default class index extends Component {
   }
 
   componentDidShow () {
-    const socketStatus = socket.getStatus()
-    if (socketStatus) {
-      socket.onMessage(res => {
-        console.log('message', res)
-      })
-    }
   }
 
   componentDidHide () { }
@@ -89,10 +85,20 @@ export default class index extends Component {
     }
   }
 
-  gotoChat(id) {
-    Taro.navigateTo({
-      url: '/pages/chat/chatroom'
-    })
+  gotoChat(id = '', chatType = '') {
+    switch (chatType) {
+      case 'help':
+        console.log('goto help')
+        break
+      case 'system':
+        console.log('goto system')
+        break
+      default:
+        Taro.navigateTo({
+          url: '/pages/chat/chatroom?id=' + id
+        })
+    }
+
   }
 
   /**
@@ -108,12 +114,14 @@ export default class index extends Component {
     const helpData = listData.help && listData.help.length ? {
       ...listData.help[0],
       name: '求助',
-      weixin_picture_url: global.imgStaticUrl + '/img/doctor_news_help@2x.png'
+      weixin_picture_url: global.imgStaticUrl + '/img/doctor_news_help@2x.png',
+      chatType: 'help',
     } : {}
     const sysData = listData.system ? {
       ...listData.system,
       name: '壁虎小助手',
-      weixin_picture_url: global.imgStaticUrl + '/img/client_chat_bihuehu@2x.png'
+      weixin_picture_url: global.imgStaticUrl + '/img/client_chat_bihuehu@2x.png',
+      chatType: 'system',
     } : {}
 
     const contacts = listData.contacts
@@ -133,7 +141,7 @@ export default class index extends Component {
               {
                 contacts.map((item, i) => {
                   return (
-                    <View key={i} className='flex chat-list-item' onClick={this.gotoChat.bind(this, item.id)}>
+                    <View key={i} className='flex chat-list-item' onClick={this.gotoChat.bind(this, item.UID, item.chatType)}>
                       <View className='chat-img flex-center'>
                         <Image className='chat-user-img' src={getImgUrl(item.weixin_picture_url)}></Image>
                       </View>

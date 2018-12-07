@@ -1,0 +1,52 @@
+.doctor-card {
+  width: 640px;
+  height: 200px;
+  margin: 30px auto;
+  border-radius: 10px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    flex: 1;
+    .avatar-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 120px;
+    }
+  }
+  .doctor-text {
+    flex: 2;
+
+    .doctor-name {
+      margin-top: 40px;
+      font-weight: bold;
+      line-height: 36px;
+    }
+    .hospital-name {
+      margin-top: 10px;
+      font-size: 28px;
+      color: #999;
+      line-height: 36px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+  }
+  .gift-btn {
+    flex: 1;
+    justify-content: center;
+
+    .btn {
+      display: inline-block;
+      text-align: center;
+      width: 112px;
+      height: 48px;
+      line-height: 48px;
+      border-radius: 48px;
+      font-size: 26px;
+    }
+  }
+}

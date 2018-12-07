@@ -84,9 +84,21 @@ export default {
 
     // 注意： 回调方法的注册在整个小程序启动阶段只要做一次，调多次会有多次回调
     my.onSocketMessage((res) => {
-      console.info('收到数据！', res)
-      if (res.data) {
-        msgCallback && msgCallback(res.data)
+      // console.info('收到数据！', res.data)
+      if (res.data == 'error') {
+        Taro.showToast({
+          title: '网络出现问题，请重新登录'
+        })
+        Taro.navigateTo({
+          url: '/pages/user/login'
+        })
+      } else {
+        try {
+          const data = JSON.parse(res.data)
+          msgCallback && msgCallback(data)
+        } catch (err) {
+          // nothing
+        }
       }
     });
   }

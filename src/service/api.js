@@ -26,11 +26,23 @@ export const getUnreadMsgs = () => fetch('/patientUser/getSign')
 //  查询个案师绑定状态，未绑定个案师则提示去绑定
 export const getManagerStatus = () => fetch('/patientUser/getManagerId')
 
+/**
+ * 根据ID查询个案师信息
+ * @param {*} id 个案师ID
+ */
+export const getManagerInfoById = id => fetch('/patientUser/getByManager', { id })
+
 // 查询聊天列表
 export const getChatList = () => fetch('/patientUser/findByUserContacts')
 
 // 获取单聊记录
 export const getChatContents = ({ contactsId, userId }) => fetch('/patientUser/getMessagesBetweenUserContact', { contactsId, userId })
+
+/**
+ * 进入聊天时标记消息已读
+ * @param {Object} 参数
+ */
+export const updateMsgReadStatus = ({ relationId, messageType = 0 }) => post('/patientUser/groupChatMessageUpdateRead', { relationId, messageType }, true)
 
 /**
  * *********************

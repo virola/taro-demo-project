@@ -13,6 +13,9 @@ class App extends Component {
       'pages/education/index',
       'pages/mine/index',
       'pages/chat/list',
+      'pages/chat/chatroom',
+      'pages/doctor/homepage',
+      'pages/doctor/gift',
       'pages/education/recieved'
     ],
     window: {

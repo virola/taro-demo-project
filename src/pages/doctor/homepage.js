@@ -30,7 +30,7 @@ export default class index extends Component {
   render() {
     return (
       <View>
-        <Text>个人资料页</Text>
+        <Text>医生主页</Text>
       </View>
     )
   }
