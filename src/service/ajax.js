@@ -11,25 +11,59 @@ import global from '../global'
  */
 const ajax = (options = {}) => {
   if (!options.url) {
-    return;
+    return false
   }
-  Taro.showLoading({
-    content: '加载中...',
-  })
+  const method = options.method && options.method.toUpperCase() || 'GET'
+
+  if (method == 'POST' || options.isLoading) {
+    Taro.showLoading({
+      content: '加载中...',
+    })
+  }
+
+  const token = Taro.getStorageSync('token')
+
   const contentType = options.contentType && options.contentType == 'form' ? 'application/x-www-form-urlencoded' : 'application/json'
-  const url = options.url.indexOf('http') > -1 ? options.url : `${global.baseUrl}${options.url}`
+  let url = options.url.indexOf('http') > -1 ? options.url : `${global.baseUrl}${options.url}`
+
+  if (token) {
+    url += (url.indexOf('?') > -1 ? '&' : '?') + 'access_token=' + token
+  }
+
   // console.log(options);
   return new Promise((resolve) => {
     Taro.request({
       url,
-      method: options.method && options.method.toUpperCase() || 'GET',
+      method,
       data: options.data,
-      header: { 'content-type': contentType, 'access_token': localStorage.token },
+      header: { 'content-type': contentType },
     }).then(res => {
-      Taro.hideLoading()
+      if (method == 'POST' || options.isLoading) {
+        Taro.hideLoading()
+      }
+      if (!res.data.success) {
+        if (res.data.errorCode == '1003') {
+          Taro.setStorageSync('token', '');
+          resolve({
+            success: false,
+            data: null,
+            msg: '令牌失效，请重新登录',
+            toLogin: true,
+          })
+          Taro.showToast({
+            title: '网络出现问题，请重新登录'
+          })
+          Taro.navigateTo({
+            url: '/pages/user/login'
+          })
+          return;
+        }
+      }
       resolve(res.data)
     }).catch((err) => {
-      Taro.hideLoading()
+      if (method == 'POST' || options.isLoading) {
+        Taro.hideLoading()
+      }
       resolve({
         success: false,
         data: null,
@@ -45,10 +79,11 @@ const ajax = (options = {}) => {
  * @param {*} url URL
  * @param {*} data 请求参数
  */
-export const fetch = (url, data = {}) => {
+export const fetch = (url, data = {}, showLoading = false) => {
   return ajax({
     url,
     data,
+    showLoading
   });
 };
 
@@ -56,14 +91,16 @@ export const fetch = (url, data = {}) => {
  * 导出一个通用post请求方法
  * @param {*} url URL
  * @param {*} data post参数
- * @param {*} contentType 传输方式
+ * @param {Object} isForm 是否以表单形式提交数据
+ * @param {Object} showLoading 是否显示Loading，默认是true
  */
-export const post = (url, data = {}, contentType = '') => {
+export const post = (url, data = {}, { isForm = false, showLoading = true }) => {
   return ajax({
     url,
     data,
     method: 'POST',
-    contentType,
+    contentType: isForm ? 'form' : '',
+    showLoading,
   });
 };
 

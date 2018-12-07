@@ -1,32 +1,48 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
+import global from '../../global'
 import './index.less'
-
 
 class EducationItem extends Component {
   static defaultProps = {
-    image: 'http://wx.goalwisdom.net/static/img/default_health.png'
+    item: {
+      coverImage: global.imgCoverDefault
+    }
   }
 
   render () {
-    const { image, title, isExpert, isFree, hospitalName, readCount } = this.props
+    const { coverImage, title, expertEducation, free, departmentName, readCount, paidCount, hasVideo } = this.props.item
+    let imgUrl = global.imgCoverDefault
+    if (coverImage) {
+      imgUrl = coverImage.indexOf('http') > -1 ? coverImage : (global.imgBaseUrl + coverImage)
+    }
 
     return (
       <View className='flex edu-item'>
-        <Image className='edu-img' src={image}></Image>
+        <View className='edu-img-wrap'>
+          <Image className='edu-img' src={imgUrl}></Image>
+          {
+            hasVideo ?
+            <View className='video-mask'>
+              <View className='icon-video-play'></View>
+            </View>
+            : ''
+          }
+        </View>
+
         <View className='edu-content'>
           <View className='title'>{title}</View>
           <View className='edu-labels'>
             {
-              isExpert ? <Text className='edu-label expert-label'>专家</Text> : ''
+              expertEducation ? <Text className='edu-label expert-label'>专家</Text> : ''
             }
             {
-              isFree ? '' : <Text className='edu-label recommend-label'>精选</Text>
+              free ? '' : <Text className='edu-label recommend-label'>精选</Text>
             }
           </View>
           <View className='flex-between'>
-            <View className='text-secondary'>{hospitalName}</View>
-            <View className='text-secondary'>{readCount}</View>
+            <View className='ft24 text-secondary'>{departmentName}</View>
+            <View className='ft24 text-secondary'>阅读 {free ? readCount : paidCount}</View>
           </View>
         </View>
       </View>

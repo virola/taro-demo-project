@@ -1,4 +1,8 @@
 import Taro from '@tarojs/taro'
+import { getMyProject } from './service/api'
+
+const appUserInfo = Taro.getStorageSync('userInfo') || null
+const projectInfo = Taro.getStorageSync('projectInfo') || {}
 
 const global = {
   // 正式环境
@@ -6,11 +10,14 @@ const global = {
   // socket: 'wss://socket.bihuyihu.com/gwecs/websocket',
 
   // 测试环境
-  baseUrl: 'http://wxhd.goalwisdom.net/gwecs/',
-  socket: 'https://socket.goalwisdom.net/gwecs/websocket',
+  baseUrl: 'http://wxhd.goalwisdom.net/gwecs',
+  socket: 'wss://socket.goalwisdom.net/gwecs/websocket',
 
   // 图片base地址
-  imgBaseUrl: 'http://img.goalwisdom.net',
+  imgBaseUrl: 'http://img.goalwisdom.net/',
+  // static目录地址
+  imgStaticUrl: 'http://wx.goalwisdom.net/static/',
+  imgCoverDefault: 'http://wx.goalwisdom.net/static/img/default_health.png',
   // token: '', // token放localStorage里去了
 
   // 收到消息音乐
@@ -20,11 +27,16 @@ const global = {
 
   ENV: Taro.getEnv(),
 
+  // 存放公共变量
+  data: {},
+
   // 公共用户信息变量
   userInfo: null,
 
-  // 平台账户信息
-  appUserInfo: null,
+  // 登录帐号的平台账户信息
+  appUserInfo,
+  // 登录帐号的科室信息
+  projectInfo,
 
   // 小程序获取的授权码
   appcode: '',
@@ -37,9 +49,8 @@ const global = {
         my.getAuthCode({
           scopes: ['auth_user'],
           success: (code) => {
-            // console.info(code);
+            console.info(code.authCode);
             global.appcode = code.authCode
-            // localStorage.setItem('authcode', code.authCode)
 
             my.getAuthUserInfo({
               success: (res) => {
@@ -55,13 +66,26 @@ const global = {
             reject({});
           },
         });
+      } else if (global.ENV == 'WEB') {
+        resolve({})
       }
     });
   },
 
   // 更新当前登录账户
-  updateUserInfo(data) {
+  updateUserInfo(data, callback) {
     global.appUserInfo = data
+    Taro.setStorageSync('userInfo', data)
+
+    getMyProject().then(res => {
+      if (res.success) {
+        global.projectInfo = res.data
+        Taro.setStorageSync('projectInfo', res.data)
+      }
+      if (callback) {
+        callback()
+      }
+    })
   },
 }
 

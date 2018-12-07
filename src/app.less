@@ -1,6 +1,7 @@
 @import './common/css/variables.less';
+@import './common/css/icons.less';
 
-view, text, label, input, textarea, button, navigator, picker, .page {
+div, view, text, label, input, textarea, button, navigator, picker, .page {
   font-family: 'Microsoft YaHei';
   font-size: 28px;
   color: #333;
@@ -13,17 +14,32 @@ input, textarea, button {
 .page {
   background: #f6f6f6;
 }
+.bg-white {
+  background: #fff;
+}
 
 .flex {
+  display: flex;
+}
+.flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .flex-column {
+  display: flex;
   flex-direction: column;
 }
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+// *******************
+// *** 通用文字样式 ***
+// *******************
 .text-primary {
   color: @theme-color;
 }
@@ -33,10 +49,24 @@ input, textarea, button {
 .text-9 {
   color: #999;
 }
+// 通用文字大小
+.ft24 {
+  font-size: 24px;
+}
+.ft36 {
+  font-size: 36px;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
 
 // 默认按钮
 .btn {
   height: 88px;
+  line-height: 88px;
   border-radius: 44px;
   background-color: @theme-color;
   color: #fff;
@@ -50,12 +80,74 @@ input, textarea, button {
 .btn:only-child {
   width: 600px;
 }
+.btn-plain {
+  background: #f5f5f5;
+  border: 1px solid @theme-color;
+  color: @theme-color;
+}
+.btn-danger {
+  background: #f5f5f5;
+  border: 1px solid @danger-color;
+  color: @danger-color;
+}
 
-// 默认图标样式
-.icon-info {
-  width: 156px;
-  height: 156px;
-  border-radius: 50%;
-  background: url('http://wx.goalwisdom.net/static/img/newAuthor/register_search_failed@2x.png') no-repeat center;
-  background-size: 100% 100%;
+// *******************
+// ===== 徽章 =====
+// *******************
+.badge {
+  display: inline-block;
+  border-radius: 16px;
+  background: #f03e3e;
+  color: #fff;
+  font-size: 24px;
+  line-height: 32px;
+  height: 32px;
+  padding: 0 12px;
+}
+
+// *******************
+// *** 加载更多 ***
+// *******************
+.loading-page {
+  text-align: center;
+  padding: 100px 0 0;
+}
+.show-more {
+  padding: 30px;
+  text-align: center;
+}
+
+// ***************************
+// *** 通用列表样式 ***
+// ***************************
+.basic-list {
+  background: #fff;
+  border-top: 1px solid #e7e7e7;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e7e7e7;
+    padding: 30px;
+  }
+}
+
+// ***************************
+// *** 异常信息提示 ***
+// ***************************
+.exception-info {
+  text-align: center;
+  padding: 180px 70px 0;
+
+  &-title {
+    font-weight: bold;
+    margin-top: 72px;
+  }
+  &-content {
+    margin-top: 20px;
+  }
+  &-btn {
+    margin-top: 90px;
+  }
 }

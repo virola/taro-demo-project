@@ -27,19 +27,20 @@ export default class Authorize extends Component {
   authorize() {
     const that = this;
     global.getUserInfo().then(res => {
-      // console.log(res)
-      if (global.appcode) {
-        if (!localStorage.token) {
-          Taro.navigateTo({
-            url: '/pages/user/login'
-          })
-        } else {
-          Taro.showToast({
-            title: `${res.nickName}, 欢迎回来！`
-          })
-          that.setState({
-            isOpened: false
-          })
+      console.log(res)
+      if (!localStorage.token) {
+        Taro.navigateTo({
+          url: '/pages/user/login'
+        })
+      } else {
+        Taro.showToast({
+          title: `${res.nickName}, 欢迎回来！`
+        })
+        that.setState({
+          isOpened: false
+        })
+        if (that.props.onLogin) {
+          that.props.onLogin()
         }
       }
     })
@@ -51,7 +52,7 @@ export default class Authorize extends Component {
         isOpened={this.state.isOpened}
         onClose={this.onClose.bind(this)}
       >
-        <View className='reg-info flex flex-column'>
+        <View className='reg-info flex-center flex-column'>
           <View className='icon-info'></View>
           <View className='title'>亲爱的用户，您暂未完善用户信息</View>
           <View>完善授权信息后就可以登入平台进行互动了！</View>
