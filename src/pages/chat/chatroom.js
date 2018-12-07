@@ -5,6 +5,7 @@ import socket from '../../service/socket'
 import global from '../../global'
 import ChatContent from '../../components/ChatContent'
 import DoctorCard from '../../components/DoctorCard'
+import './chatroom.less'
 
 export default class index extends Component {
   config = {
@@ -109,20 +110,16 @@ export default class index extends Component {
   }
 
   render() {
-    const { managerId, managerInfo, managerStatus, loading, list } = this.state
+    const { managerInfo, managerStatus, loading, list } = this.state
     const currentUser = global.appUserInfo
     console.log(list, managerInfo)
 
     return (
-      <View>
+      <View className='page chat-page'>
         {
           loading ? <View className='loading-page'>LOADING...</View> :
           <View>
             <DoctorCard doctor={managerInfo}></DoctorCard>
-            <View className='flex'>
-              <View>信息完善状态: {managerStatus ? '是' : '否'}</View>
-            </View>
-            <View>医生ID {managerId}</View>
             <View className='chat-msg-list'>
               {
                 list.map(item => {
@@ -133,6 +130,7 @@ export default class index extends Component {
                 })
               }
             </View>
+            <View className='input-box'>{managerStatus ? '是' : '否'}</View>
           </View>
         }
 
