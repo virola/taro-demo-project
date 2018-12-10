@@ -80,6 +80,19 @@ export function formatChatTime(datetime) {
 }
 
 /**
+ * 格式化金额显示
+ * 后端传的金额数据都是以分为单位的
+ * @param {Number} value 金额
+ * @param {Number} float 精确到小数点位
+ */
+export const formatCurrency = (value, float = 0) => {
+  if (!value) {
+    return value
+  }
+  return (value / 100).toFixed(float)
+}
+
+/**
  * 获取图片完整地址
  * @param {String} imgUrl 图片路径
  */
@@ -89,6 +102,14 @@ export const getImgUrl = imgUrl => {
   }
   return imgUrl.indexOf('http') > -1 ? imgUrl : global.imgBaseUrl + imgUrl;
 };
+
+/**
+ * 获取用户信息中的头像
+ * @param {*} userInfo 用户信息data
+ */
+export const getUserAvatar = userInfo => {
+  return userInfo.headImage ? getImgUrl(userInfo.headImage) : (userInfo.weixinPictureUrl ? userInfo.weixinPictureUrl : global.imgStaticUrl + '/img/init_header.png' )
+}
 
 /**
  * 千分位格式化数字

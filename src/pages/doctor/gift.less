@@ -1,0 +1,43 @@
+
+.flex-item {
+  flex: 1;
+  text-align: center;
+
+  .avatar-img {
+    width: 108px;
+    height: 108px;
+    border-radius: 100%;
+    display: inline-block;
+  }
+}
+
+.gift-list {
+  background: #fff;
+  padding: 30px 30px 0;
+  margin-bottom: 30px;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  .gift-item {
+    flex: 0 1 30%;
+    text-align: center;
+    border: 2px solid #e7e7e7;
+    border-radius: 13px;
+    margin-bottom: 30px;
+  }
+  .selected {
+    border-color: #2fd996;
+    background-color: rgba(47, 217, 150, 0.1);
+    position: relative;
+  }
+  .gift-img {
+    display: inline-block;
+    margin-top: 20px;
+    width: 80px;
+    height: 80px;
+  }
+  .currency {
+    font-weight: 600;
+  }
+}

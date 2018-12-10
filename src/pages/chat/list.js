@@ -29,9 +29,9 @@ export default class index extends Component {
   // onLoad
   componentWillMount () {
     this.getManagerStatus()
-    socket.bindOnLoad((res) => {
+    socket.onMessage((msgs) => {
       // 接收到新消息的时候，重新请求聊天列表
-      if (res instanceof Array) {
+      if (msgs instanceof Array) {
         this.getChatList()
       }
     })

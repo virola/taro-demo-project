@@ -26,10 +26,10 @@ export default class index extends Component {
   }
 
   componentWillMount () {
-    socket.bindOnLoad((res) => {
-      // 接收到新消息的时候，重新请求聊天列表
-      if (res instanceof Array) {
-        this.appendMsg(res)
+    socket.onMessage((msgs) => {
+      // 接收到新消息的时候，追加消息
+      if (msgs instanceof Array) {
+        this.appendMsg(msgs)
       }
     })
 

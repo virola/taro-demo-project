@@ -102,10 +102,11 @@ export default class Index extends Component {
 
   // 登录授权之后
   async onAuthorized() {
+    const that = this;
     const res = await $api.getUserInfo()
     if (res.success) {
       global.updateUserInfo(res.data, () => {
-        this.setState({
+        that.setState({
           userInfo: global.appUserInfo,
           projectInfo: global.projectInfo,
           pageNumber: 0,
@@ -144,7 +145,8 @@ export default class Index extends Component {
   // append是否追加数据
   async getList(append = false) {
     const { pageNumber, totalPage, loading, list } = this.state
-    if (pageNumber + 1 > totalPage) {
+    let page = append ? pageNumber + 1 : 1
+    if (page > totalPage) {
       return false
     }
     if (loading) {
@@ -153,9 +155,10 @@ export default class Index extends Component {
     this.setState({
       loading: true
     })
+    console.log(page)
     const res = await $api.getSystemEduList({
       pageSize: 10,
-      pageNumber: pageNumber + 1,
+      pageNumber: page,
     })
     if (res.success) {
       let dataList = res.data.dataList
@@ -234,7 +237,7 @@ export default class Index extends Component {
             {
               loading ?
                 <Text className='text-secondary'>正在加载中...</Text>
-                : (showMore ? '- 加载更多 -' : '- END -')
+                : (showMore ? <Text className='text-secondary' onClick={this.getList.bind(this, true)}>- 加载更多 -</Text> : '- END -')
             }
           </View>
         </View>

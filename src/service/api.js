@@ -8,7 +8,7 @@ export const login = ({ loginName, password }) => post('/patientUser/patientLogi
 /**
  * 获取当前用户信息
  */
-export const getUserInfo = () => fetch('/patientUser/refreshUserInfo')
+export const getUserInfo = () => fetch('/patientUser/getLoginUserInfo')
 // 获取我的科室信息
 export const getMyProject = () => fetch('/patientUser/getMyTeam')
 // todo
