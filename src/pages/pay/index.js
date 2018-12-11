@@ -128,7 +128,17 @@ export default class PayIndex extends Component {
             // 微信支付礼物接口
             $api.getGiftPayMap(payParams.params).then(res => {
               Taro.requestPayment(res.data).then(success => {
-                console.log('success', success)
+                Taro.showModal({
+                  title: '支付成功',
+                  content: JSON.stringify(success),
+                  showCancel: false,
+                })
+              }).catch((err) => {
+                Taro.showModal({
+                  title: '支付失败',
+                  content: JSON.stringify(err),
+                  showCancel: false,
+                })
               })
             })
             break;

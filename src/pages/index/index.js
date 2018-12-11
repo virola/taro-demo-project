@@ -192,7 +192,7 @@ export default class Index extends Component {
     return (
       <View className='page'>
         {
-          userInfo.id ? '' : <Authorize isOpened onLogin={this.onAuthorized.bind(this)}></Authorize>
+          userInfo.id ? '' : <Authorize isOpened onLogin={this.onAuthorized.bind(this)} onClose={this.onAuthorized.bind(this)}></Authorize>
         }
         <View className='banner'>
           {

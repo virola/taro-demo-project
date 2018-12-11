@@ -8,7 +8,12 @@ const config = {
     '828': 1.81 / 2
   },
   sourceRoot: 'src',
-  outputRoot: 'dist',
+  // alipay
+  // outputRoot: 'alipay-dist',
+  // weixin
+  outputRoot: 'wx-dist',
+  // h5
+  // outputRoot: 'dist',
   plugins: {
     babel: {
       sourceMap: true,

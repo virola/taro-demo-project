@@ -19,7 +19,6 @@ const global = {
   imgStaticUrl: 'http://wx.goalwisdom.net/static/mini-app/',
   imgAvatarDefault: 'http://wx.goalwisdom.net/static/img/init_header.png',
   imgCoverDefault: 'http://wx.goalwisdom.net/static/img/default_health.png',
-  // token: '', // token放localStorage里去了
 
   // 收到消息音乐
   musicGet: 'http://img.bihuyihu.com/sound/get.mp3',
@@ -50,7 +49,7 @@ const global = {
         my.getAuthCode({
           scopes: ['auth_user'],
           success: (code) => {
-            console.info(code.authCode);
+            // console.info(code.authCode);
             global.appcode = code.authCode
 
             my.getAuthUserInfo({
@@ -76,12 +75,12 @@ const global = {
   // 更新当前登录账户
   updateUserInfo(data, callback) {
     global.appUserInfo = data
-    Taro.setStorageSync('userInfo', data)
+    // Taro.setStorageSync('userInfo', data)
 
     getMyProject().then(res => {
       if (res.success) {
         global.projectInfo = res.data
-        Taro.setStorageSync('projectInfo', res.data)
+        // Taro.setStorageSync('projectInfo', res.data)
       }
       if (callback) {
         callback()

@@ -18,9 +18,13 @@ export default class Authorize extends Component {
     })
   }
   onClose () {
-    // this.setState({
-    //   isOpened: false
-    // })
+    this.setState({
+      isOpened: false
+    })
+
+    if (this.props.onClose) {
+      this.props.onClose()
+    }
   }
 
   // 获取用户授权
@@ -28,7 +32,8 @@ export default class Authorize extends Component {
     const that = this;
     global.getUserInfo().then(res => {
       console.log(res)
-      if (!localStorage.token) {
+      const token = Taro.getStorageSync('token')
+      if (!token) {
         Taro.navigateTo({
           url: '/pages/user/login'
         })
