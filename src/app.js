@@ -1,4 +1,4 @@
-// import '@tarojs/async-await'
+import '@tarojs/async-await'
 import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
 
@@ -51,7 +51,7 @@ class App extends Component {
           activeIcon: 'img/client_tab_user_selected.png'
         }
       ],
-      // 微信用
+      // 微信
       list: [
         {
           pagePath: 'pages/index/index',

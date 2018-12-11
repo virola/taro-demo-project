@@ -75,12 +75,10 @@ const global = {
   // 更新当前登录账户
   updateUserInfo(data, callback) {
     global.appUserInfo = data
-    // Taro.setStorageSync('userInfo', data)
 
     getMyProject().then(res => {
       if (res.success) {
         global.projectInfo = res.data
-        // Taro.setStorageSync('projectInfo', res.data)
       }
       if (callback) {
         callback()

@@ -18,7 +18,7 @@ class EducationItem extends Component {
     }
 
     return (
-      <View className='flex edu-item'>
+      <View className='edu-item'>
         <View className='edu-img-wrap'>
           <Image className='edu-img' src={imgUrl}></Image>
           {

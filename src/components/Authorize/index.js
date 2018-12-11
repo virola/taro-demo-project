@@ -28,8 +28,13 @@ export default class Authorize extends Component {
   }
 
   // 获取用户授权
-  authorize() {
+  authorize(e) {
     const that = this;
+    // 微信中可以直接定义button获取用户信息
+    if (e && e.detail.userInfo) {
+      global.userInfo = e.detail.userInfo
+    }
+
     global.getUserInfo().then(res => {
       console.log(res)
       const token = Taro.getStorageSync('token')
@@ -49,6 +54,7 @@ export default class Authorize extends Component {
         }
       }
     })
+
   }
 
   render() {
@@ -61,7 +67,7 @@ export default class Authorize extends Component {
           <View className='icon-info'></View>
           <View className='title'>亲爱的用户，您暂未完善用户信息</View>
           <View>完善授权信息后就可以登入平台进行互动了！</View>
-          <Button className='btn' onClick={this.authorize}>立即授权</Button>
+          <Button className='btn' onClick={this.authorize} open-type='getUserInfo' onGetUserInfo={this.authorize}>立即授权</Button>
         </View>
       </AtCurtain>
     )
