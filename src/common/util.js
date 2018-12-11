@@ -107,8 +107,11 @@ export const getImgUrl = imgUrl => {
  * 获取用户信息中的头像
  * @param {*} userInfo 用户信息data
  */
-export const getUserAvatar = userInfo => {
-  return userInfo.headImage ? getImgUrl(userInfo.headImage) : (userInfo.weixinPictureUrl ? userInfo.weixinPictureUrl : global.imgStaticUrl + '/img/init_header.png' )
+export const getUserAvatar = (userInfo = {}) => {
+  if (!userInfo) {
+    return global.imgAvatarDefault
+  }
+  return userInfo.headImage ? getImgUrl(userInfo.headImage) : (userInfo.weixinPictureUrl ? userInfo.weixinPictureUrl : global.imgAvatarDefault )
 }
 
 /**

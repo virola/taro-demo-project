@@ -16,7 +16,7 @@ export default class ChatContent extends Component {
     } = this.props
     const { sendTime, senderId, message } = msg
     const { weixinPictureUrl, headImage, name } = user
-    const isSelf = senderId == global.appUserInfo.id
+    const isSelf = global.appUserInfo && senderId == global.appUserInfo.id
     const avatar = headImage ? headImage : weixinPictureUrl
 
     return (

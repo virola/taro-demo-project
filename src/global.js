@@ -17,6 +17,7 @@ const global = {
   imgBaseUrl: 'http://img.goalwisdom.net/',
   // static目录地址
   imgStaticUrl: 'http://wx.goalwisdom.net/static/mini-app/',
+  imgAvatarDefault: 'http://wx.goalwisdom.net/static/img/init_header.png',
   imgCoverDefault: 'http://wx.goalwisdom.net/static/img/default_health.png',
   // token: '', // token放localStorage里去了
 
