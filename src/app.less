@@ -1,4 +1,6 @@
 @import './common/css/variables.less';
+// Taro-ui全局样式设定
+@import './common/css/ui.less';
 
 div, view, text, label, input, textarea, button, navigator, picker, .page {
   font-family: 'Microsoft YaHei';
@@ -10,6 +12,10 @@ input, textarea, button {
   margin: 0;
   padding: 0;
 }
+
+@import './common/css/icons.less';
+@import './common/css/btn.less';
+@import './common/css/list.less';
 
 .page {
   background: #f6f6f6;
@@ -115,21 +121,6 @@ input, textarea, button {
   text-align: center;
 }
 
-// ***************************
-// *** 通用列表样式 ***
-// ***************************
-.basic-list {
-  background: #fff;
-  border-top: 1px solid #e7e7e7;
-
-  &-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e7e7e7;
-    padding: 30px;
-  }
-}
 
 // ***************************
 // *** 异常信息提示 ***
@@ -171,5 +162,3 @@ input, textarea, button {
   height: 80px;
 }
 
-@import './common/css/icons.less';
-@import './common/css/btn.less';

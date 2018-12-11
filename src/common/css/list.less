@@ -1,0 +1,42 @@
+// ***************************
+// *** 通用列表样式 ***
+// ***************************
+.basic-list {
+  background: #fff;
+  border-top: 1px solid #e7e7e7;
+
+  &-item {
+    background: #fff;
+    padding: 32px 30px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e7e7e7;
+    &:first-child {
+      border-top: 1px solid #e7e7e7;
+    }
+  }
+}
+
+// 通用的列表样式
+.basic-list-group {
+  background: #fff;
+  margin-bottom: 30px;
+  box-shadow: 0 0 5px #eee;
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// /* 多选框样式 */
+.base-checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  background: url('http://img.bihuyihu.com/doctor_user_acount_unselected@2x.png') no-repeat;
+  background-size: cover;
+  &-disabled {
+    display: none;
+  }
+}
+.base-checkbox-checked {
+  background-image: url(http://img.bihuyihu.com/doctor_user_acount_selected@2x.png);
+}

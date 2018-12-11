@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtList, AtListItem, AtRadio } from 'taro-ui'
+import { AtList, AtListItem } from 'taro-ui'
 import './index.less'
 import global from '../../global';
 import { formatCurrency } from '../../common/util';
@@ -98,7 +98,10 @@ export default class PayIndex extends Component {
     return `${min}分${sec}秒`
   }
 
-  handleMethodChange(value) {
+  handleMethodChange(value, disabled) {
+    if (disabled) {
+      return false
+    }
     this.setState({
       method: value
     })
@@ -187,6 +190,7 @@ export default class PayIndex extends Component {
     return (
       <View className='page page-has-btns'>
         <View className='countdown'>请在{this.getFormatTime(leftTime)}内完成支付，超时将自动取消</View>
+
         <AtList>
           <AtListItem title={payParams.detail.title} />
           <AtListItem title={payParams.detail.subtitle} extraText={formatCurrency(payParams.params.totalFee, 2) + '元'} />
@@ -195,11 +199,24 @@ export default class PayIndex extends Component {
           }
         </AtList>
         <View className='text-title text-9'>选择支付方式</View>
-        <AtRadio
-          options={payMethods}
-          value={method}
-          onClick={this.handleMethodChange.bind(this)}
-        />
+        <View className='basic-list'>
+          <View className='basic-list-group'>
+            {
+              payMethods.map((item, index) => {
+                return (
+                  <View key={index} className='basic-list-item' hoverClass='hover-class' onClick={this.handleMethodChange.bind(this, item.value, item.disabled)}>
+                    <View className='basic-list-item-label'>{item.label}<Text className='desc text-9'>{item.desc}</Text></View>
+                    <View className='basic-list-item-content'>
+                      {
+                        !item.disabled && <View className={method == item.value ? 'base-checkbox base-checkbox-checked' : 'base-checkbox'}></View>
+                      }
+                    </View>
+                  </View>
+                )
+              })
+            }
+          </View>
+        </View>
         <View className='bottom-box'>
           <View className='price'>实际支付： <Text className='currency'>{formatCurrency(payParams.params.totalFee, 2)}元</Text></View>
           <View className='btn-pay' onClick={this.toPay}>立即支付</View>
