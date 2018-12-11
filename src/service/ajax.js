@@ -30,7 +30,14 @@ const ajax = (options = {}) => {
     url += (url.indexOf('?') > -1 ? '&' : '?') + 'access_token=' + token
   }
 
-  // console.log(options);
+  /**
+   * {
+        success: false,
+        data: null,
+        msg: '令牌失效，请重新登录',
+        toLogin: true,
+      }
+   */
   return new Promise((resolve) => {
     Taro.request({
       url,

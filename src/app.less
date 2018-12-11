@@ -4,6 +4,7 @@
 div, view, text, label, input, textarea, button, navigator, picker, .page {
   font-family: 'Microsoft YaHei';
   font-size: 28px;
+  line-height: 1.6;
   color: #333;
 }
 input, textarea, button {
@@ -13,6 +14,9 @@ input, textarea, button {
 
 .page {
   background: #f6f6f6;
+}
+.page-has-btns {
+  padding-bottom: 160px;
 }
 .bg-white {
   background: #fff;
@@ -40,6 +44,10 @@ input, textarea, button {
 // *******************
 // *** 通用文字样式 ***
 // *******************
+.text-title {
+  padding: 30px;
+  color: #333;
+}
 .text-primary {
   color: @theme-color;
 }
@@ -107,7 +115,6 @@ input, textarea, button {
   .btn-plain {
     flex: 1;
   }
-
 }
 
 // *******************
@@ -180,4 +187,9 @@ input, textarea, button {
   margin-bottom: 30px;
   background: #fff;
   display: flex;
+}
+
+// 通用表单样式
+.textarea, .input {
+  padding: 30px;
 }

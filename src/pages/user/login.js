@@ -12,9 +12,9 @@ export default class Login extends Component {
   constructor () {
     super(...arguments)
     this.state = {
-      loginName: localStorage.loginName || '1234567890123456789',
+      loginName: '1234567890123456789',
       // 888888的md5大写
-      password: localStorage.password || '21218CCA77804D2BA1922C33E0151105',
+      password: '21218CCA77804D2BA1922C33E0151105',
     }
   }
   componentWillMount () {
@@ -30,6 +30,14 @@ export default class Login extends Component {
   }
 
   componentDidShow () {
+    const loginName = Taro.getStorageSync('loginName')
+    const password = Taro.getStorageSync('password')
+    if (loginName && password) {
+      this.setState({
+        loginName,
+        password
+      })
+    }
 
   }
 
@@ -40,7 +48,6 @@ export default class Login extends Component {
   }
 
   async handleSubmit() {
-    console.log('login')
     const { loginName, password } = this.state
     const res = await $api.login({ loginName, password })
     if (res.success) {

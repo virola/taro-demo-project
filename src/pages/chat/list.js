@@ -114,13 +114,13 @@ export default class index extends Component {
     const helpData = listData.help && listData.help.length ? {
       ...listData.help[0],
       name: '求助',
-      weixin_picture_url: global.imgStaticUrl + '/img/doctor_news_help@2x.png',
+      weixin_picture_url: global.imgStaticUrl + '/img/doctor_news_help.png',
       chatType: 'help',
     } : {}
     const sysData = listData.system ? {
       ...listData.system,
       name: '壁虎小助手',
-      weixin_picture_url: global.imgStaticUrl + '/img/client_chat_bihuehu@2x.png',
+      weixin_picture_url: global.imgStaticUrl + '/img/client_chat_bihuehu.png',
       chatType: 'system',
     } : {}
 

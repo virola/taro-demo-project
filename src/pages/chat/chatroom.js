@@ -33,10 +33,8 @@ export default class index extends Component {
       }
     })
 
-    console.log(this.$router.params)
     // URL参数，个案师ID
     const managerId = this.$router.params.id
-    console.log(managerId)
     if (managerId) {
       this.setState({
         managerId
@@ -72,7 +70,6 @@ export default class index extends Component {
         userId: userInfo.id
       }),
     ])
-    // console.log(managerData, chatData)
 
     if (managerData.success && chatData.success) {
       this.setState({
@@ -112,7 +109,6 @@ export default class index extends Component {
   render() {
     const { managerInfo, managerStatus, loading, list } = this.state
     const currentUser = global.appUserInfo
-    console.log(list, managerInfo)
 
     return (
       <View className='page chat-page'>

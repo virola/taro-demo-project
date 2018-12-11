@@ -29,25 +29,25 @@ export default class Index extends Component {
       mainIcons: [
         {
           label: '免费咨询',
-          url: 'http://wx.goalwisdom.net/static/img/client_home_consult@2x.png',
+          url: global.imgStaticUrl + '/img/home/client_home_consult.png',
           path: '/pages/chat/list',
           hasNew: false,
           nums: 0,
         }, {
           label: '科室宣教',
-          url: 'http://wx.goalwisdom.net/static/img/client_home_essay@2x.png',
+          url: global.imgStaticUrl + '/img/home/client_home_essay.png',
           path: '/pages/education/recieved',
           hasNew: false,
           nums: 0,
         }, {
           label: '健康问卷',
-          url: 'http://wx.goalwisdom.net/static/img/client_home_quest@2x.png',
+          url: global.imgStaticUrl + '/img/home/client_home_quest.png',
           path: '/pages/survey/index',
           hasNew: false,
           nums: 0,
         }, {
           label: '预约床位',
-          url: 'http://wx.goalwisdom.net/static/img/client_home_reserve@2x.png',
+          url: global.imgStaticUrl + '/img/home/client_home_reserve.png',
           path: '/pages/sickbed',
           hasNew: false,
           nums: 0,
@@ -70,7 +70,8 @@ export default class Index extends Component {
 
   componentDidShow () {
     // console.log('onShow')
-    if (localStorage.token) {
+    const token = Taro.getStorageSync('token')
+    if (token) {
       this.onAuthorized()
     }
   }
@@ -187,8 +188,6 @@ export default class Index extends Component {
         <EducationItem image={item.image} key={item.id} item={item}></EducationItem>
       )
     })
-
-    // const userToken = localStorage.token || '';
 
     return (
       <View className='page'>

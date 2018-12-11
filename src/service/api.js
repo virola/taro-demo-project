@@ -15,6 +15,34 @@ export const getMyProject = () => fetch('/patientUser/getMyTeam')
 export const getProjectInfo = (id) => fetch('/todo', { id })
 
 /**
+ * 支付相关接口
+ */
+
+
+/**
+ * 获取送礼的支付参数
+ * @param {*} params 礼物字段
+ */
+export const getGiftPayMap = params => fetch('/patientUser/getPrepaidMap', params)
+
+/**
+ * 余额送礼
+ * @param {*} params 礼物参数
+ */
+export const payGiftByBalance = params => fetch('/patientUser/buyFlowerByBalance', params)
+
+/**
+ * 宣教支付参数
+ * @param {*} params 宣教参数
+ */
+export const getEduPayMap = params => fetch('/patientUser/getPrepaidMapForEducation', params)
+
+/**
+ * 余额购买宣教
+ */
+export const payEduByBalance = params => fetch('/patientUser/buyEducationByBalance', params)
+
+/**
  * 首页未读消息
  */
 export const getUnreadMsgs = () => fetch('/patientUser/getSign')
@@ -58,3 +86,5 @@ export const getSystemEduList = query => fetch('/patientUser/getFilterSystemHeal
 
 // 获取宣教标签
 export const getEduLabels = () => fetch('/patientUser/getLabels')
+
+
