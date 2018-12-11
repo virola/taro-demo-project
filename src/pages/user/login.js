@@ -47,27 +47,40 @@ export default class Login extends Component {
     })
   }
 
-  async handleSubmit() {
-    const { loginName, password } = this.state
-    const res = await $api.login({ loginName, password })
-    if (res.success) {
-      Taro.setStorageSync('token', res.msg)
-
-      global.updateUserInfo(res.data, () => {
+  handleSubmit(e) {
+    global.getUserInfo(e).then(async res => {
+      console.log(res)
+      if (!res) {
         Taro.showToast({
-          title: '登录成功!',
-          icon: 'success',
+          title: '授权失败',
+          icon: 'none'
         })
-        if (global.ENV == 'WEB') {
-          Taro.navigateTo({
-            url: '/pages/index/index'
-          })
-        } else {
-          Taro.navigateBack()
-        }
-
+        return false
+      }
+      const { loginName, password } = this.state
+      const loginData = await $api.login({
+        loginName,
+        password,
+        nickName: res.nickName
       })
-    }
+      if (loginData.success) {
+        Taro.setStorageSync('token', loginData.msg)
+
+        global.updateUserInfo(loginData.data, () => {
+          Taro.showToast({
+            title: '登录成功!',
+          })
+          if (global.ENV == 'WEB') {
+            Taro.navigateTo({
+              url: '/pages/index/index'
+            })
+          } else {
+            Taro.navigateBack()
+          }
+        })
+      }
+    })
+
 
   }
 
@@ -87,7 +100,12 @@ export default class Login extends Component {
             <View className='icon-bg icon-bg-password'></View>
             <Input className='input' password placeholderClass='placeholder-style' placeholder='请输入密码' onInput={this.handleInput.bind(this, 'password')} value={password}></Input>
           </View>
-          <Button className='btn' formType='submit' onClick={this.handleSubmit.bind(this)}>登录</Button>
+          {
+            global.ENV == 'WEAPP' && <Button className='btn' formType='submit' open-type='getUserInfo' onGetUserInfo={this.handleSubmit}>登录</Button>
+          }
+          {
+            global.ENV == 'ALIPAY' && <Button className='btn' onClick={this.handleSubmit}>登录</Button>
+          }
         </View>
       </View>
     )

@@ -58,7 +58,8 @@ const ajax = (options = {}) => {
             toLogin: true,
           })
           Taro.showToast({
-            title: '网络出现问题，请重新登录'
+            title: '网络出现问题，请重新登录',
+            icon: 'none'
           })
           Taro.navigateTo({
             url: '/pages/user/login'

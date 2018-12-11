@@ -8,6 +8,13 @@ import global from '../../global'
  * 聊天会话Card
  */
 export default class ChatContent extends Component {
+  static defaultProps = {
+    addGlobalClass: true,
+    showName: false,
+    msg: {},
+    user: {}
+  }
+
   render() {
     const {
       showName,
@@ -36,10 +43,4 @@ export default class ChatContent extends Component {
       </View>
     )
   }
-}
-
-ChatContent.defaultProps = {
-  showName: false,
-  msg: {},
-  user: {}
 }

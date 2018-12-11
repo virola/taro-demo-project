@@ -41,33 +41,47 @@ const global = {
   // 小程序获取的授权码
   appcode: '',
 
-  getUserInfo() {
+  getUserInfo(event) {
     return new Promise((resolve, reject) => {
-      if (global.userInfo) resolve(global.userInfo);
+      if (global.userInfo) return resolve(global.userInfo);
       if (global.ENV == 'ALIPAY') {
         // 调用用户授权 api 获取用户信息
         my.getAuthCode({
           scopes: ['auth_user'],
           success: (code) => {
-            // console.info(code.authCode);
             global.appcode = code.authCode
 
             my.getAuthUserInfo({
               success: (res) => {
-                global.userInfo = res;
-                resolve(global.userInfo);
+                global.userInfo = res
+                resolve(global.userInfo)
               },
               fail: () => {
-                reject({});
+                reject(false)
               },
             });
           },
           fail: () => {
-            reject({});
+            reject(false)
           },
         });
       } else if (global.ENV == 'WEB') {
         resolve({})
+      }
+      if (global.ENV == 'WEAPP') {
+        wx.login({
+          success: res => {
+            global.appcode = res.code
+            // 微信中可以直接定义button获取用户信息
+            if (event && event.detail.userInfo) {
+              global.userInfo = event.detail.userInfo
+              resolve(global.userInfo)
+            } else {
+              resolve(false)
+            }
+
+          }
+        })
       }
     });
   },

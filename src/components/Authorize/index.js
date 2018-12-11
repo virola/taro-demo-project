@@ -12,6 +12,10 @@ export default class Authorize extends Component {
       isOpened: true,
     }
   }
+  static defaultProps = {
+    addGlobalClass: true
+  }
+
   open () {
     this.setState({
       isOpened: true
@@ -30,12 +34,7 @@ export default class Authorize extends Component {
   // 获取用户授权
   authorize(e) {
     const that = this;
-    // 微信中可以直接定义button获取用户信息
-    if (e && e.detail.userInfo) {
-      global.userInfo = e.detail.userInfo
-    }
-
-    global.getUserInfo().then(res => {
+    global.getUserInfo(e).then(res => {
       console.log(res)
       const token = Taro.getStorageSync('token')
       if (!token) {
@@ -44,7 +43,7 @@ export default class Authorize extends Component {
         })
       } else {
         Taro.showToast({
-          title: `${res.nickName}, 欢迎回来！`
+          title: `${res.nickName}, 欢迎！`
         })
         that.setState({
           isOpened: false
@@ -58,6 +57,8 @@ export default class Authorize extends Component {
   }
 
   render() {
+    const ENV = global.ENV
+
     return (
       <AtCurtain
         isOpened={this.state.isOpened}
@@ -67,7 +68,12 @@ export default class Authorize extends Component {
           <View className='icon-info'></View>
           <View className='title'>亲爱的用户，您暂未完善用户信息</View>
           <View>完善授权信息后就可以登入平台进行互动了！</View>
-          <Button className='btn' onClick={this.authorize} open-type='getUserInfo' onGetUserInfo={this.authorize}>立即授权</Button>
+          {
+            ENV == 'WEAPP' && <Button className='btn' open-type='getUserInfo' onGetUserInfo={this.authorize}>立即授权</Button>
+          }
+          {
+            ENV == 'ALIPAY' && <Button className='btn' onClick={this.authorize}>立即授权</Button>
+          }
         </View>
       </AtCurtain>
     )

@@ -202,12 +202,12 @@ export default class DoctorGift extends Component {
         </View>
         <View>
           <View className='text-title'>传达心意，写祝福语</View>
-          <View className='textarea-box'>
+          <View className='textarea-wrap'>
             <Textarea className='textarea' maxlength='50' placeholder={defaultBlessing} value={blessing} onBlur={this.handleBlessingChange.bind(this)}></Textarea>
           </View>
         </View>
         <View className='footer-btns'>
-          <Button className='btn' onClick={this.gotoPay}>立即赠送</Button>
+          <Button className='btn' formType='submit' onClick={this.gotoPay}>立即赠送</Button>
         </View>
       </View>
     )

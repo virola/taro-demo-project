@@ -5,6 +5,7 @@ import './index.less'
 
 class EducationItem extends Component {
   static defaultProps = {
+    addGlobalClass: true,
     item: {
       coverImage: global.imgCoverDefault
     }
