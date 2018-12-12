@@ -1,8 +1,11 @@
-import '@tarojs/async-await'
 import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
-
 import './app.less'
+
+if (process.env.TARO_ENV === 'weapp') {
+  // 微信小程序需要这个依赖包
+  require('@tarojs/async-await')
+}
 
 class App extends Component {
 

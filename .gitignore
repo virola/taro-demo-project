@@ -1,6 +1,5 @@
 dist/
-wx-dist/
-alipay-dist/
+dist_*
 .temp/
 .rn_temp/
 node_modules/

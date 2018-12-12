@@ -1,3 +1,15 @@
+let outputRoot = 'dist';
+
+if (process.env.npm_config_argv.indexOf('h5') > 0) {
+  outputRoot = 'dist';
+} else if (process.env.npm_config_argv.indexOf('weapp') > 0) {
+  outputRoot = 'dist_wechat';
+} else if (process.env.npm_config_argv.indexOf('swan') > 0) {
+  outputRoot = 'dist_swan';
+} else if (process.env.npm_config_argv.indexOf('alipay') > 0) {
+  outputRoot = 'dist_alipay';
+}
+
 const config = {
   projectName: 'appPatient',
   date: '2018-11-22',
@@ -8,12 +20,7 @@ const config = {
     '828': 1.81 / 2
   },
   sourceRoot: 'src',
-  // alipay
-  // outputRoot: 'alipay-dist',
-  // weixin
-  outputRoot: 'wx-dist',
-  // h5
-  // outputRoot: 'dist',
+  outputRoot,
   plugins: {
     babel: {
       sourceMap: true,
